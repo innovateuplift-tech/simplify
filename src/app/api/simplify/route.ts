@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(request: Request) {
   try {
@@ -12,42 +12,90 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      // Fallback logic for when the user hasn't set up their OpenAI API key yet.
-      // This prevents the application from breaking immediately after cloning.
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      const explanation = `**Note: OpenAI API Key is missing!**\n\nTo see real AI-generated simplifications, please set your \`OPENAI_API_KEY\` in a \`.env.local\` file at the root of the project.\n\n---\n\nHere is a placeholder explanation of **${topic}**.\n\nImagine ${topic} like a busy restaurant kitchen. In the kitchen, you have different chefs (components) working together. The head chef is the main system directing orders, the sous chefs prep the ingredients (process data), and the waiters bring out the final dish to the customer (output).\n\nEven though the recipes (the underlying mechanics) are very complex, the end result is just a perfectly cooked meal served to your table. So instead of worrying about the intricate cooking methods, just know that ${topic} is basically a well-coordinated team working behind the scenes to give you exactly what you asked for!`;
+      const mockResponse = {
+        title: topic,
+        category: "Computer Science",
+        shortDescription: `A brief summary of ${topic}.`,
+        tldr: `The absolute simplest way to explain ${topic} in one sentence.`,
+        sections: [
+          {
+            title: "What is it really?",
+            content: `Imagine a restaurant. The chefs are the processors, the waiters are the data buses, and the customers are the end-users. ${topic} is essentially the recipe book they all share.`
+          },
+          {
+            title: "Why does it matter?",
+            content: `Without ${topic}, the restaurant would be complete chaos.`
+          }
+        ],
+        keyTerms: [
+          { term: "Chef", definition: "The processor that does the work." },
+          { term: "Waiter", definition: "The data bus that carries information." }
+        ],
+        deepDive: `If you want to get technical, ${topic} involves complex interactions between multiple systems, but at its core, it's just a way to organize information efficiently.`
+      };
 
-      return NextResponse.json({ explanation });
+      return NextResponse.json(mockResponse);
     }
 
-    // Initialize the OpenAI client
-    const openai = new OpenAI({ apiKey });
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies. Keep it concise (under 250 words), and use markdown bolding (**word**) for key concepts."
-        },
-        {
-          role: "user",
-          content: `Please provide a simple, analogy-based explanation for: ${topic}`
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 350,
-    });
+    const prompt = `
+      You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies.
+      Keep the overall explanation concise, and use markdown bolding (**word**) for key concepts.
 
-    const explanation = completion.choices[0]?.message?.content || "Sorry, I couldn't generate an explanation for that topic.";
+      Please provide a simple, analogy-based explanation for: ${topic}
 
-    return NextResponse.json({ explanation });
+      You MUST respond ONLY with a valid JSON object matching the following structure. Do not wrap it in markdown code blocks like \`\`\`json.
+      {
+        "title": "Topic Title",
+        "category": "Broad Category (e.g., Physics, Computer Science)",
+        "shortDescription": "1-2 sentence high-level summary",
+        "tldr": "The absolute simplest explanation in one sentence",
+        "sections": [
+          {
+            "title": "Section Title (e.g., What is it really?)",
+            "content": "Analogy-based explanation paragraph."
+          },
+          {
+             "title": "Section Title (e.g., Why does it matter?)",
+             "content": "Why this topic is important."
+          }
+        ],
+        "keyTerms": [
+          {
+            "term": "Term 1",
+            "definition": "Simple definition"
+          }
+        ],
+        "deepDive": "A slightly more technical, but still accessible, paragraph for those who want more detail."
+      }
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    let text = response.text();
+
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+    try {
+      const parsedData = JSON.parse(text);
+      return NextResponse.json(parsedData);
+    } catch (parseError) {
+      console.error("Error parsing Gemini JSON:", text, parseError);
+      return NextResponse.json(
+         { error: "Failed to parse the explanation format." },
+         { status: 500 }
+      );
+    }
+
   } catch (error) {
-    console.error("OpenAI API Error:", error);
+    console.error("Gemini API Error:", error);
     return NextResponse.json(
       { error: "Failed to process the request and generate an explanation." },
       { status: 500 }
