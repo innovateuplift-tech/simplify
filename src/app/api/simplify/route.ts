@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     });
 
     const completion = await openai.chat.completions.create({
-      model: "meta/llama-3.3-70b-instruct",
+      model: "nvidia/llama-3.3-nemotron-super-49b", // Official active Nvidia Nemotron model
       messages: [
         {
           role: "system",
