@@ -43,7 +43,7 @@ function ResultContent() {
         let data;
         try {
           data = await response.json();
-        } catch (e) {
+        } catch {
           throw new Error("Failed to parse response from server.");
         }
 

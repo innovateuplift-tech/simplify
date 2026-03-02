@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.NVIDIA_API_KEY;
 
     if (!apiKey) {
       await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -42,65 +42,72 @@ export async function POST(request: Request) {
       return NextResponse.json(mockResponse);
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-      generationConfig: { responseMimeType: "application/json" }
+    const openai = new OpenAI({
+      apiKey: apiKey,
+      baseURL: 'https://integrate.api.nvidia.com/v1',
     });
 
-    const prompt = `
-      You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies.
-      Keep the overall explanation concise, and use markdown bolding (**word**) for key concepts.
+    const completion = await openai.chat.completions.create({
+      model: "nvidia/llama-3.1-nemotron-70b-instruct",
+      messages: [
+        {
+          role: "system",
+          content: "You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies. Keep the overall explanation concise, and use markdown bolding (**word**) for key concepts. You MUST respond ONLY with a valid JSON object, without markdown code blocks or wrapper text."
+        },
+        {
+          role: "user",
+          content: `Please provide a simple, analogy-based explanation for: ${topic}
 
-      Please provide a simple, analogy-based explanation for: ${topic}
-
-      You MUST respond ONLY with a valid JSON object matching the following structure.
-      {
-        "title": "Topic Title",
-        "category": "Broad Category (e.g., Physics, Computer Science)",
-        "shortDescription": "1-2 sentence high-level summary",
-        "tldr": "The absolute simplest explanation in one sentence",
-        "sections": [
+          Match the exact following JSON structure:
           {
-            "title": "Section Title (e.g., What is it really?)",
-            "content": "Analogy-based explanation paragraph."
-          },
-          {
-             "title": "Section Title (e.g., Why does it matter?)",
-             "content": "Why this topic is important."
-          }
-        ],
-        "keyTerms": [
-          {
-            "term": "Term 1",
-            "definition": "Simple definition"
-          }
-        ],
-        "deepDive": "A slightly more technical, but still accessible, paragraph for those who want more detail."
-      }
-    `;
+            "title": "Topic Title",
+            "category": "Broad Category (e.g., Physics, Computer Science)",
+            "shortDescription": "1-2 sentence high-level summary",
+            "tldr": "The absolute simplest explanation in one sentence",
+            "sections": [
+              {
+                "title": "Section Title (e.g., What is it really?)",
+                "content": "Analogy-based explanation paragraph."
+              },
+              {
+                 "title": "Section Title (e.g., Why does it matter?)",
+                 "content": "Why this topic is important."
+              }
+            ],
+            "keyTerms": [
+              {
+                "term": "Term 1",
+                "definition": "Simple definition"
+              }
+            ],
+            "deepDive": "A slightly more technical, but still accessible, paragraph for those who want more detail."
+          }`
+        }
+      ],
+      temperature: 0.2,
+      top_p: 0.7,
+      max_tokens: 1024,
+    });
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    let text = response.text();
-
+    let text = completion.choices[0]?.message?.content || "";
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();
 
     try {
       const parsedData = JSON.parse(text);
       return NextResponse.json(parsedData);
     } catch (parseError) {
-      console.error("Error parsing Gemini JSON:", text, parseError);
+      console.error("Error parsing Nemotron JSON:", text, parseError);
       return NextResponse.json(
-         { error: "Failed to parse the explanation format." },
+         { error: "Failed to parse the explanation format from the model." },
          { status: 500 }
       );
     }
 
-  } catch (error: any) {
-    console.error("Gemini API Error:", error);
+  } catch (error: unknown) {
+    console.error("Nemotron API Error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to process the request and generate an explanation.";
     return NextResponse.json(
-      { error: error?.message || "Failed to process the request and generate an explanation." },
+      { error: errorMessage },
       { status: 500 }
     );
   }
