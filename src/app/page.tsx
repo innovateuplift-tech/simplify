@@ -77,7 +77,7 @@ export default function Home() {
           </div>
 
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight mb-8 transition-colors">
-            Understand anything</h2><h2><span className="text-blue-600 dark:text-blue-500">in seconds.</span>
+            Understand anything <span className="text-blue-600 dark:text-blue-500">in seconds.</span>
           </h2>
 
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed transition-colors">
