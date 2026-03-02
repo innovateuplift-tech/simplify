@@ -41,7 +41,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
             disabled={isLoading || !topic.trim()}
             className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white font-bold px-4 md:px-6 py-2 md:py-3 rounded-xl transition-colors h-full flex items-center ml-2 text-sm md:text-base whitespace-nowrap"
           >
-            {isLoading ? "Simplifying..." : "Random Topic"}
+            {isLoading ? "Simplifying..." : "Simplify"}
           </button>
         </div>
       </form>
