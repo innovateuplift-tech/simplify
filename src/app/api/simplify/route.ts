@@ -43,7 +43,10 @@ export async function POST(request: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+      generationConfig: { responseMimeType: "application/json" }
+    });
 
     const prompt = `
       You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies.
@@ -51,7 +54,7 @@ export async function POST(request: Request) {
 
       Please provide a simple, analogy-based explanation for: ${topic}
 
-      You MUST respond ONLY with a valid JSON object matching the following structure. Do not wrap it in markdown code blocks like \`\`\`json.
+      You MUST respond ONLY with a valid JSON object matching the following structure.
       {
         "title": "Topic Title",
         "category": "Broad Category (e.g., Physics, Computer Science)",
@@ -94,10 +97,10 @@ export async function POST(request: Request) {
       );
     }
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini API Error:", error);
     return NextResponse.json(
-      { error: "Failed to process the request and generate an explanation." },
+      { error: error?.message || "Failed to process the request and generate an explanation." },
       { status: 500 }
     );
   }

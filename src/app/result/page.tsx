@@ -40,11 +40,17 @@ function ResultContent() {
           body: JSON.stringify({ topic: topicParam }),
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to simplify the topic");
+        let data;
+        try {
+          data = await response.json();
+        } catch (e) {
+          throw new Error("Failed to parse response from server.");
         }
 
-        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to simplify the topic");
+        }
+
         if (data.error) {
            throw new Error(data.error);
         }
@@ -138,9 +144,9 @@ function ResultContent() {
                           <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">
                             {section.title}
                           </h2>
-                          <p className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+                          <div className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                             {renderBoldedText(section.content)}
-                          </p>
+                          </div>
                       </div>
                     ))}
                   </div>
