@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
     const prompt = `
       You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies.
