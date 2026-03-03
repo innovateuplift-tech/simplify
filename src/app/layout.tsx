@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Simplifier - Understand anything in seconds",
+  title: "Bhabha Intelligence - Understand anything in seconds",
   description: "AI-powered explanations that break down complex jargon into simple, concise analogies.",
 };
 

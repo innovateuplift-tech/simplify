@@ -14,7 +14,7 @@ export default function Footer() {
                 <circle cx="9" cy="9" r="4" />
               </svg>
             </div>
-            <span className="font-bold text-lg text-slate-900 dark:text-white">Simplifier</span>
+            <span className="font-bold text-lg text-slate-900 dark:text-white">Bhabha Intelligence</span>
           </div>
 
           <nav className="flex gap-8 text-sm font-medium text-slate-500 dark:text-slate-400">
@@ -35,7 +35,7 @@ export default function Footer() {
         </div>
 
         <p className="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-center">
-          © {new Date().getFullYear()} Simplifier AI. One simple explanation at a time.
+          © {new Date().getFullYear()} Bhabha Intelligence. One simple explanation at a time.
         </p>
       </div>
     </footer>

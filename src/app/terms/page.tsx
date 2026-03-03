@@ -10,15 +10,15 @@ export default function TermsOfService() {
           <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-8">Terms of Service</h1>
           <div className="prose dark:prose-invert prose-slate max-w-none text-slate-600 dark:text-slate-400">
             <p>Last updated: {new Date().toLocaleDateString()}</p>
-            <p>Welcome to Simplifier. By accessing or using our website, you agree to be bound by these terms.</p>
+            <p>Welcome to Bhabha Intelligence. By accessing or using our website, you agree to be bound by these terms.</p>
             <h3>1. Description of Service</h3>
-            <p>Simplifier provides AI-generated explanations of complex topics. The explanations are for educational purposes and should not replace professional advice.</p>
+            <p>Bhabha Intelligence provides AI-generated explanations of complex topics. The explanations are for educational purposes and should not replace professional advice.</p>
             <h3>2. User Conduct</h3>
             <p>You agree not to use the service for any unlawful purpose or to generate content that is harmful, abusive, or offensive.</p>
             <h3>3. Disclaimer of Warranties</h3>
             <p>Our service is provided &quot;as is&quot; and &quot;as available&quot;. We make no warranties regarding the accuracy or reliability of the AI-generated explanations.</p>
             <h3>4. Limitation of Liability</h3>
-            <p>In no event shall Simplifier be liable for any indirect, incidental, or consequential damages arising from the use of our service.</p>
+            <p>In no event shall Bhabha Intelligence be liable for any indirect, incidental, or consequential damages arising from the use of our service.</p>
           </div>
         </div>
       </main>

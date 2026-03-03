@@ -30,7 +30,7 @@ export default function Header() {
           </svg>
         </div>
         <div>
-          <h1 className="font-bold text-lg md:text-xl leading-tight text-slate-900 dark:text-white">Simplifier</h1>
+          <h1 className="font-bold text-lg md:text-xl leading-tight text-slate-900 dark:text-white">Bhabha</h1>
           <p className="text-[9px] md:text-[10px] uppercase tracking-wider text-slate-500 font-medium">Intelligence</p>
         </div>
       </Link>
