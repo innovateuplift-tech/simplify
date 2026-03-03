@@ -37,7 +37,7 @@ function ResultContent() {
         const response = await fetch("/api/simplify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic: topicParam }),
+          body: JSON.stringify({ topic: topicParam, level: readingLevel }),
         });
 
         let data;
@@ -63,7 +63,7 @@ function ResultContent() {
     };
 
     fetchExplanation();
-  }, [topicParam]);
+  }, [topicParam, readingLevel]);
 
   const renderBoldedText = (text: string) => {
     return text.split(/(\*\*.*?\*\*)/).map((part, i) => {
@@ -154,13 +154,19 @@ function ResultContent() {
                   <hr className="border-slate-200 dark:border-slate-800" />
 
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-2 gap-4">
-                    <button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 md:py-3 px-5 md:px-6 rounded-xl transition-colors w-full sm:w-auto">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        alert("Link copied to clipboard!");
+                      }}
+                      className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 md:py-3 px-5 md:px-6 rounded-xl transition-colors w-full sm:w-auto"
+                    >
                       <Share2 size={18} />
                       Share Explanation
                     </button>
-                    <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto px-1 sm:px-0">
+                    <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto px-1 sm:px-0 opacity-50 cursor-not-allowed" title="Coming soon">
                       <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Read Aloud</span>
-                      <div className="w-12 h-6 bg-slate-200 dark:bg-slate-700 rounded-full relative cursor-pointer">
+                      <div className="w-12 h-6 bg-slate-200 dark:bg-slate-700 rounded-full relative">
                         <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
                       </div>
                     </div>

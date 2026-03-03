@@ -3,7 +3,7 @@ import OpenAI from "openai";
 
 export async function POST(request: Request) {
   try {
-    const { topic } = await request.json();
+    const { topic, level } = await request.json();
 
     if (!topic || typeof topic !== "string") {
       return NextResponse.json(
@@ -47,16 +47,20 @@ export async function POST(request: Request) {
       baseURL: 'https://integrate.api.nvidia.com/v1',
     });
 
+    let targetAudience = "high school student";
+    if (level === "beginner") targetAudience = "5 year old";
+    if (level === "expert") targetAudience = "college graduate / expert";
+
     const completion = await openai.chat.completions.create({
       model: "nvidia/llama-3.3-nemotron-super-49b", // Official active Nvidia Nemotron model
       messages: [
         {
           role: "system",
-          content: "You are an expert simplifier. Your job is to take complex topics and break them down into simple, easy-to-understand explanations using clear analogies. Keep the overall explanation concise, and use markdown bolding (**word**) for key concepts. You MUST respond ONLY with a valid JSON object, without markdown code blocks or wrapper text."
+          content: "You are an expert simplifier. Your job is to take complex topics and break them down into easy-to-understand explanations using clear analogies. Keep the overall explanation concise, and use markdown bolding (**word**) for key concepts. You MUST respond ONLY with a valid JSON object, without markdown code blocks or wrapper text."
         },
         {
           role: "user",
-          content: `Please provide a simple, analogy-based explanation for: ${topic}
+          content: `Please provide an explanation tailored for a ${targetAudience} for the following topic: ${topic}
 
           Match the exact following JSON structure:
           {
