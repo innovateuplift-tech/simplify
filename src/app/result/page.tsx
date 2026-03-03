@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { BookOpen, GraduationCap, Loader2, Share2, Zap, Lightbulb } from "lucide-react";
+import { BookOpen, GraduationCap, Loader2, Share2, Zap, Lightbulb, Check } from "lucide-react";
 
 interface ExplanationData {
   title: string;
@@ -25,6 +25,7 @@ function ResultContent() {
   const [error, setError] = useState<string | null>(null);
   const [readingLevel, setReadingLevel] = useState<"beginner" | "intermediate" | "expert">("intermediate");
   const [showDeepDive, setShowDeepDive] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     if (!topicParam) return;
@@ -119,13 +120,13 @@ function ResultContent() {
                 {explanationData.title}
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed">
-                {explanationData.shortDescription}
+                {renderBoldedText(explanationData.shortDescription)}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 items-start">
+            <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-8 md:gap-10 items-start">
               {/* Main Content Column */}
-              <div className="lg:col-span-8 space-y-8 md:space-y-10 order-2 lg:order-1">
+              <div className="w-full lg:col-span-8 space-y-8 md:space-y-10">
 
                   {/* TLDR Highlight Box */}
                   <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl p-5 md:p-8 border border-yellow-100 dark:border-yellow-900/30">
@@ -134,7 +135,7 @@ function ResultContent() {
                       <h4 className="text-yellow-800 dark:text-yellow-500 font-bold uppercase tracking-wider text-xs md:text-sm">TL;DR</h4>
                     </div>
                     <p className="text-base sm:text-lg md:text-xl text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
-                        {explanationData.tldr}
+                        {renderBoldedText(explanationData.tldr)}
                     </p>
                   </div>
 
@@ -158,18 +159,28 @@ function ResultContent() {
                     <button
                       onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
-                        alert("Link copied to clipboard!");
+                        setIsCopied(true);
+                        setTimeout(() => setIsCopied(false), 2000);
                       }}
                       className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 md:py-3 px-5 md:px-6 rounded-xl transition-colors w-full sm:w-auto"
                     >
-                      <Share2 size={18} />
-                      Share Explanation
+                      {isCopied ? (
+                        <>
+                          <Check size={18} />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Share2 size={18} />
+                          Share Explanation
+                        </>
+                      )}
                     </button>
                   </div>
               </div>
 
               {/* Sidebar Column */}
-              <div className="lg:col-span-4 space-y-6 order-1 lg:order-2">
+              <div className="w-full lg:col-span-4 space-y-6">
 
                   {/* Reading Levels Toggle */}
                   <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
@@ -230,7 +241,7 @@ function ResultContent() {
                         {explanationData.keyTerms.map((item, idx) => (
                           <div key={idx}>
                             <p className="font-bold text-slate-900 dark:text-white text-sm mb-1">{item.term}</p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{item.definition}</p>
+                            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{renderBoldedText(item.definition)}</p>
                           </div>
                         ))}
                     </div>
@@ -268,9 +279,9 @@ function ResultContent() {
                         </>
                       ) : (
                         <div className="animate-in fade-in slide-in-from-top-4 duration-500 w-full">
-                          <p className="text-sm text-blue-50 leading-relaxed mb-4 border-t border-blue-500/50 dark:border-blue-400/30 pt-4">
-                            {explanationData.deepDive}
-                          </p>
+                          <div className="text-sm text-blue-50 leading-relaxed mb-4 border-t border-blue-500/50 dark:border-blue-400/30 pt-4">
+                            {renderBoldedText(explanationData.deepDive)}
+                          </div>
                           <button
                             onClick={() => setShowDeepDive(false)}
                             className="text-xs text-blue-200 dark:text-blue-200 hover:text-white dark:hover:text-white font-semibold flex items-center gap-1 transition-colors"
@@ -292,7 +303,7 @@ function ResultContent() {
 
 export default function ResultPage() {
   return (
-    <main className="flex-1 w-full relative bg-slate-50/50 dark:bg-slate-950 transition-colors duration-300 min-h-screen flex flex-col">
+    <main className="flex-1 w-full relative bg-slate-50 dark:bg-slate-950 transition-colors duration-300 min-h-screen flex flex-col">
       <Header />
       <Suspense fallback={
         <div className="flex-1 flex justify-center py-24">

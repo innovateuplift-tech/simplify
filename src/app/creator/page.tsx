@@ -51,7 +51,7 @@ export default function Creator() {
                   <h2 className="text-2xl font-bold text-slate-900 dark:text-white">The Mission</h2>
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
-                  By leveraging state-of-the-art AI, specifically Nvidia&apos;s powerful Nemotron architecture, this application bridges the gap between expert knowledge and curious minds. It breaks down complex topics into digestible analogies, highlights key terms, and adjusts reading levels so anyone can grasp the core concepts instantly.
+                  My ultimate goal is <strong>turning complex things into simple examples and explanation</strong>. By leveraging state-of-the-art AI, specifically Nvidia&apos;s powerful Nemotron architecture, this application bridges the gap between expert knowledge and curious minds. It breaks down complex topics into digestible analogies, highlights key terms, and adjusts reading levels so anyone can grasp the core concepts instantly.
                 </p>
               </div>
 
