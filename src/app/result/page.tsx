@@ -78,7 +78,7 @@ function ResultContent() {
   if (!topicParam) {
     return (
       <div className="flex-1 flex items-center justify-center p-8">
-        <p className="text-slate-500">No topic provided. Please go back and search for a topic.</p>
+        <p className="text-slate-500 dark:text-slate-400">No topic provided. Please go back and search for a topic.</p>
       </div>
     );
   }
@@ -89,8 +89,8 @@ function ResultContent() {
       {isLoading && (
         <div className="w-full max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24 flex justify-center">
             <div className="flex flex-col items-center gap-4">
-              <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
-              <p className="text-slate-500 font-medium animate-pulse">Simplifying &quot;{topicParam}&quot;...</p>
+              <Loader2 className="w-10 h-10 text-blue-600 dark:text-blue-500 animate-spin" />
+              <p className="text-slate-500 dark:text-slate-400 font-medium animate-pulse">Simplifying &quot;{topicParam}&quot;...</p>
             </div>
         </div>
       )}
@@ -98,7 +98,7 @@ function ResultContent() {
       {/* Error State */}
       {!isLoading && error && (
         <div className="w-full max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="bg-red-50 p-6 rounded-2xl border border-red-200 text-red-600 font-medium text-center">
+          <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-2xl border border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400 font-medium text-center shadow-sm">
             {error}
           </div>
         </div>
@@ -247,7 +247,7 @@ function ResultContent() {
                   </div>
 
                   {/* Deep Dive */}
-                  <div className="bg-blue-600 rounded-2xl p-6 shadow-sm text-white relative overflow-hidden transition-colors">
+                  <div className="bg-blue-600 dark:bg-blue-700 rounded-2xl p-6 shadow-sm text-white relative overflow-hidden transition-colors">
                     <div className="relative z-10 flex flex-col items-start gap-3">
                       <div className="bg-white/20 p-2 rounded-full mb-1">
                         <Lightbulb className="w-5 h-5 text-white" fill="currentColor" />
@@ -256,24 +256,24 @@ function ResultContent() {
 
                       {!showDeepDive ? (
                         <>
-                          <p className="text-sm text-blue-100 leading-relaxed mb-4">
+                          <p className="text-sm text-blue-100 dark:text-blue-50 leading-relaxed mb-4">
                             Want to learn more about the advanced concepts behind {explanationData.title.toLowerCase()}?
                           </p>
                           <button
                             onClick={() => setShowDeepDive(true)}
-                            className="w-full bg-white text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-xl text-sm transition-colors"
+                            className="w-full bg-white text-blue-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800 hover:bg-blue-50 font-bold py-2.5 rounded-xl text-sm transition-colors"
                           >
                             Continue Reading
                           </button>
                         </>
                       ) : (
                         <div className="animate-in fade-in slide-in-from-top-4 duration-500 w-full">
-                          <p className="text-sm text-blue-50 leading-relaxed mb-4 border-t border-blue-500/50 pt-4">
+                          <p className="text-sm text-blue-50 leading-relaxed mb-4 border-t border-blue-500/50 dark:border-blue-400/30 pt-4">
                             {explanationData.deepDive}
                           </p>
                           <button
                             onClick={() => setShowDeepDive(false)}
-                            className="text-xs text-blue-200 hover:text-white font-semibold flex items-center gap-1 transition-colors"
+                            className="text-xs text-blue-200 dark:text-blue-200 hover:text-white dark:hover:text-white font-semibold flex items-center gap-1 transition-colors"
                           >
                             Hide Details
                           </button>

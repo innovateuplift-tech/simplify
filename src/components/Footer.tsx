@@ -20,6 +20,7 @@ export default function Footer() {
           <nav className="flex gap-8 text-sm font-medium text-slate-500 dark:text-slate-400">
             <Link href="/privacy" className="hover:text-slate-900 dark:hover:text-white transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors">Terms</Link>
+            <Link href="/creator" className="hover:text-slate-900 dark:hover:text-white transition-colors">Creator</Link>
             <Link href="/contact" className="hover:text-slate-900 dark:hover:text-white transition-colors">Contact</Link>
           </nav>
 
