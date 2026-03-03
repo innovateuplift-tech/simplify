@@ -1,6 +1,9 @@
+"use client";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { User, Sparkles, BookOpen } from "lucide-react";
+import { Sparkles, BookOpen } from "lucide-react";
+import Image from "next/image";
 
 export default function Creator() {
   return (
@@ -10,8 +13,18 @@ export default function Creator() {
         <div className="space-y-12">
 
           <div className="text-center space-y-6">
-            <div className="w-24 h-24 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white dark:border-slate-800 shadow-xl">
-              <User className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+            <div className="relative w-32 h-32 mx-auto mb-4 border-4 border-white dark:border-slate-800 rounded-full shadow-xl overflow-hidden bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
+              <Image
+                src="/rohit.jpg"
+                alt="Rohit Gahrana"
+                fill
+                className="object-cover"
+                // Fallback rendering in case the image isn't there yet
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              <span className="text-blue-500 text-xs text-center px-2 absolute z-[-1]">Drop rohit.jpg in /public folder</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
               Meet the Creator
@@ -32,14 +45,14 @@ export default function Creator() {
                   <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg text-blue-600 dark:text-blue-400">
                     <Sparkles className="w-5 h-5" />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Why I built Simplifier</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Why I built Bhabha Intelligence</h2>
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
                   The internet is an incredible repository of human knowledge, yet so much of it is locked behind dense jargon, complex academic language, and assumptions of prior knowledge. I constantly found myself trying to learn about fascinating subjects—from quantum physics to blockchain architecture—only to hit a wall of incomprehensible terminology.
                 </p>
                 <br />
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
-                  I created Simplifier because I believe <strong>learning shouldn&apos;t be a struggle</strong>. Information is empowering, and everyone deserves the chance to understand the world around them regardless of their background or education level.
+                  I created Bhabha Intelligence because I believe <strong>learning shouldn&apos;t be a struggle</strong>. Information is empowering, and everyone deserves the chance to understand the world around them regardless of their background or education level.
                 </p>
               </div>
 

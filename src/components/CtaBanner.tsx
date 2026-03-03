@@ -27,7 +27,7 @@ export default function CtaBanner() {
             Start learning better today
           </h2>
           <p className="text-slate-400 text-lg leading-relaxed font-medium">
-            Join curious minds who use Simplifier to master new subjects faster than ever. No sign-up required.
+            Join curious minds who use Bhabha Intelligence to master new subjects faster than ever. No sign-up required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             <button

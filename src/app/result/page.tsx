@@ -124,7 +124,7 @@ function ResultContent() {
               </p>
             </div>
 
-            <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-8 md:gap-10 items-start">
+            <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 md:gap-10 items-start">
               {/* Main Content Column */}
               <div className="w-full lg:col-span-8 space-y-8 md:space-y-10">
 
