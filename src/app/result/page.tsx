@@ -24,6 +24,7 @@ function ResultContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [readingLevel, setReadingLevel] = useState<"beginner" | "intermediate" | "expert">("intermediate");
+  const [showDeepDive, setShowDeepDive] = useState(false);
 
   useEffect(() => {
     if (!topicParam) return;
@@ -164,12 +165,6 @@ function ResultContent() {
                       <Share2 size={18} />
                       Share Explanation
                     </button>
-                    <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto px-1 sm:px-0 opacity-50 cursor-not-allowed" title="Coming soon">
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Read Aloud</span>
-                      <div className="w-12 h-6 bg-slate-200 dark:bg-slate-700 rounded-full relative">
-                        <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
-                      </div>
-                    </div>
                   </div>
               </div>
 
@@ -240,9 +235,14 @@ function ResultContent() {
                         ))}
                     </div>
                     <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
-                      <button className="text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                      <a
+                        href={`https://en.wikipedia.org/wiki/${encodeURIComponent(explanationData.title)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors inline-block"
+                      >
                         View Full Glossary
-                      </button>
+                      </a>
                     </div>
                   </div>
 
@@ -253,12 +253,32 @@ function ResultContent() {
                         <Lightbulb className="w-5 h-5 text-white" fill="currentColor" />
                       </div>
                       <h3 className="font-bold text-lg">Deep Dive</h3>
-                      <p className="text-sm text-blue-100 leading-relaxed mb-4">
-                        Want to learn more about the advanced concepts behind {explanationData.title.toLowerCase()}?
-                      </p>
-                      <button className="w-full bg-white text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-xl text-sm transition-colors">
-                        Continue Reading
-                      </button>
+
+                      {!showDeepDive ? (
+                        <>
+                          <p className="text-sm text-blue-100 leading-relaxed mb-4">
+                            Want to learn more about the advanced concepts behind {explanationData.title.toLowerCase()}?
+                          </p>
+                          <button
+                            onClick={() => setShowDeepDive(true)}
+                            className="w-full bg-white text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-xl text-sm transition-colors"
+                          >
+                            Continue Reading
+                          </button>
+                        </>
+                      ) : (
+                        <div className="animate-in fade-in slide-in-from-top-4 duration-500 w-full">
+                          <p className="text-sm text-blue-50 leading-relaxed mb-4 border-t border-blue-500/50 pt-4">
+                            {explanationData.deepDive}
+                          </p>
+                          <button
+                            onClick={() => setShowDeepDive(false)}
+                            className="text-xs text-blue-200 hover:text-white font-semibold flex items-center gap-1 transition-colors"
+                          >
+                            Hide Details
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
 
