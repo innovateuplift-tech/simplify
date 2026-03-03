@@ -1,3 +1,4 @@
+"use client";
 import { Settings } from "lucide-react";
 
 export default function CtaBanner() {
@@ -29,10 +30,16 @@ export default function CtaBanner() {
             Join curious minds who use Simplifier to master new subjects faster than ever. No sign-up required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-8 rounded-full transition-colors text-center shadow-lg shadow-blue-600/20">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-8 rounded-full transition-colors text-center shadow-lg shadow-blue-600/20"
+            >
               Try a Search
             </button>
-            <button className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 px-8 rounded-full transition-colors border border-slate-700 text-center">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 px-8 rounded-full transition-colors border border-slate-700 text-center"
+            >
               Popular Topics
             </button>
           </div>

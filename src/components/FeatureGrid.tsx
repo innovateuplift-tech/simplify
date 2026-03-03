@@ -23,10 +23,10 @@ export default function FeatureGrid() {
   ];
 
   return (
-    <section className="w-full max-w-5xl mx-auto px-8 py-20">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section className="w-full max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {features.map((feature, idx) => (
-          <div key={idx} className="bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-8 flex flex-col gap-4">
+          <div key={idx} className="bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-6 md:p-8 flex flex-col gap-3 md:gap-4">
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${feature.bgColor} mb-2`}>
               {feature.icon}
             </div>

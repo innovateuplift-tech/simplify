@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import { Providers } from "@/components/Providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
   title: "Simplifier - Understand anything in seconds",
-  description: "Get clear, concise, and expert-verified breakdowns of any topic instantly.",
+  description: "AI-powered explanations that break down complex jargon into simple, concise analogies.",
 };
 
 export default function RootLayout({
@@ -15,9 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-[#fafafa] min-h-screen flex flex-col text-slate-900`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+      >
+        <Providers>
+           {children}
+        </Providers>
       </body>
     </html>
   );
