@@ -15,7 +15,7 @@ export default function Creator() {
           <div className="text-center space-y-6">
             <div className="relative w-32 h-32 mx-auto mb-4 border-4 border-white dark:border-slate-800 rounded-full shadow-xl overflow-hidden bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
               <Image
-                src="/rohit.jpg"
+                src="/rohit.jpeg"
                 alt="Rohit Gahrana"
                 fill
                 className="object-cover"
