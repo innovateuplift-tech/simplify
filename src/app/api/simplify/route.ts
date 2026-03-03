@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     if (level === "expert") targetAudience = "college graduate / expert";
 
     const completion = await openai.chat.completions.create({
-      model: "nvidia/llama-3.3-nemotron-super-49b", // Official active Nvidia Nemotron model
+      model: "meta/llama-3.3-70b-instruct", // Official active Nvidia Nemotron model
       messages: [
         {
           role: "system",
